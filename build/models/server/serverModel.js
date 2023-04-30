@@ -14,8 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const shoe_routes_1 = __importDefault(require("../../routes/shoe.routes"));
+const brand_routes_1 = __importDefault(require("../../routes/brand.routes"));
+const auth_routes_1 = __importDefault(require("../../routes/auth.routes"));
 const cors_1 = __importDefault(require("cors"));
-const conection_1 = require("../../db/conection");
+const dbConection_1 = require("../../db/dbConection");
 // import cookieParser from 'cookie-parser'
 // import bodyParser from "body-parser";
 class Server {
@@ -24,6 +26,8 @@ class Server {
         this.port = process.env.PORT || '3000';
         this.paths = {
             shoe: '/api/shoe',
+            brand: '/api/brand',
+            auth: '/api/auth'
         };
         this.dbConnection();
         // Middlewares
@@ -34,7 +38,12 @@ class Server {
     dbConnection() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield conection_1.sequelize.authenticate();
+                // await sequelize.authenticate();
+                yield dbConection_1.sequelize.sync();
+                // await Brand.sync()
+                // await Shoe.sync()
+                // await Brand.sync({force: true})
+                // await Shoe.sync({force: true})
                 console.log('Connection has been established successfully.');
             }
             catch (error) {
@@ -51,6 +60,8 @@ class Server {
     }
     routes() {
         this.app.use(this.paths.shoe, shoe_routes_1.default);
+        this.app.use(this.paths.brand, brand_routes_1.default);
+        this.app.use(this.paths.auth, auth_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

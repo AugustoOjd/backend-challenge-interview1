@@ -1,7 +1,12 @@
 import express, {Application } from "express";
 import routerShoe  from '../../routes/shoe.routes'
+import routerBrand from '../../routes/brand.routes'
+import routerAuth from '../../routes/auth.routes'
 import cors from 'cors'
-import { sequelize } from "../../db/conection";
+
+import { sequelize } from "../../db/dbConection";
+import { Brand } from "../../db/models/BrandDBModel";
+import { Shoe } from "../../db/models/ShoeDBModel";
 // import cookieParser from 'cookie-parser'
 // import bodyParser from "body-parser";
 
@@ -10,7 +15,9 @@ export default class Server {
     private app: Application
     private port: string
     private paths: {          
-        shoe: '/api/shoe'
+        shoe: '/api/shoe',
+        brand: '/api/brand',
+        auth: '/api/auth'
     }
 
     constructor(){
@@ -19,6 +26,8 @@ export default class Server {
 
         this.paths = {          
             shoe: '/api/shoe',
+            brand: '/api/brand',
+            auth: '/api/auth'
         }
 
         this.dbConnection()
@@ -32,7 +41,13 @@ export default class Server {
 
     async dbConnection(){
         try {
-            await sequelize.authenticate();
+            // await sequelize.authenticate();
+            await sequelize.sync()
+            // await Brand.sync()
+            // await Shoe.sync()
+            
+            // await Brand.sync({force: true})
+            // await Shoe.sync({force: true})
             console.log('Connection has been established successfully.');
           } catch (error) {
             console.error('Unable to connect to the database:', error);
@@ -49,6 +64,8 @@ export default class Server {
 
     routes(){
         this.app.use(this.paths.shoe, routerShoe)
+        this.app.use(this.paths.brand, routerBrand)
+        this.app.use(this.paths.auth, routerAuth)
     }
 
     listen(){

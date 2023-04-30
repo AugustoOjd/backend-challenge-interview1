@@ -12,31 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const BrandDBModel_1 = require("../db/models/BrandDBModel");
-const BrandBuilder_1 = __importDefault(require("../models/brand/BrandBuilder"));
-const BrandDirector_1 = __importDefault(require("../models/brand/BrandDirector"));
-class BrandService {
+const AuthContext_1 = __importDefault(require("../models/auth/AuthContext"));
+const LoginDBStrategy_1 = __importDefault(require("../models/auth/LoginDBStrategy"));
+class AuthService {
     constructor() {
-        this.brandBuilder = new BrandBuilder_1.default();
-        this.brandDirector = new BrandDirector_1.default(this.brandBuilder);
-        this.error = '';
-        this.code = 200;
+        this.authAdmin = new AuthContext_1.default(new LoginDBStrategy_1.default());
+        this.error = '',
+            this.code = 200;
     }
     errorController(message, code) {
         this.error = message;
         this.code = code;
     }
-    createBrand(name, logo) {
+    loginAdmin(userName, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!name || !logo)
-                    throw this.errorController('inputs require', 404);
-                const brand = yield BrandDBModel_1.Brand.create({
-                    name: name,
-                    logo: logo
-                });
+                const authLogin = this.authAdmin.login(userName, password);
+                if (!authLogin)
+                    throw this.errorController('Invalid credentials', 404);
+                // PREVIANMENTE VALIDADO EN LOGINDBSTRATEGY
                 return {
-                    data: brand
+                    user: userName,
+                    token: 'token de jwt'
                 };
             }
             catch (error) {
@@ -48,4 +45,4 @@ class BrandService {
         });
     }
 }
-exports.default = BrandService;
+exports.default = AuthService;
