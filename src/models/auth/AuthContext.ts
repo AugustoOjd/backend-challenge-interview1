@@ -12,8 +12,12 @@ export default class AuthContext{
         this.setStrategy(strategy)
     }
 
-    login(userName: string, password: string): boolean{
-        return this.strategy.login(userName, password)
+    login(userName: string, password: string): Promise<boolean>{
+        return this.strategy.login!(userName, password)
+    }
+
+    registerSeed(userName: string, password: string): Promise<boolean>{
+        return this.strategy.registerSeed!(userName, password)
     }
 
 } 

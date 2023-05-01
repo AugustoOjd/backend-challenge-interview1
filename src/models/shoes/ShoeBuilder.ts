@@ -5,14 +5,14 @@ export default class ShoeBuilder implements IShoeBuilder{
     name: string
     description: string
     price: number
-    brand: string
+    brandId: number
     thumbnail: string
 
     constructor(){
         this.name = '',
         this.description = '',
         this.price = 0
-        this.brand = ''
+        this.brandId = 0
         this.thumbnail = ''
     }
 
@@ -20,7 +20,7 @@ export default class ShoeBuilder implements IShoeBuilder{
         this.name = '',
         this.description = '',
         this.price = 0
-        this.brand = ''
+        this.brandId = 0
         this.thumbnail = ''
     }
 
@@ -39,8 +39,8 @@ export default class ShoeBuilder implements IShoeBuilder{
         return this
     }
 
-    setBrand(brand: string): IShoeBuilder {
-        this.brand = brand
+    setBrand(brandId: number): IShoeBuilder {
+        this.brandId = brandId
         return this
     }
 
@@ -54,7 +54,7 @@ export default class ShoeBuilder implements IShoeBuilder{
             this.name,
             this.description,
             this.price,
-            this.brand,
+            this.brandId,
             this.thumbnail,
         )
 

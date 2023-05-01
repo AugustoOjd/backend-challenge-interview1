@@ -2,5 +2,7 @@
 
 export interface IAuthContext {
 
-    login(userName: string, password: string): boolean
+    login?(userName: string, password: string): Promise<boolean>
+
+    registerSeed?(userName: string, password: string): Promise<boolean>
 }

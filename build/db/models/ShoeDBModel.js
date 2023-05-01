@@ -30,12 +30,12 @@ exports.Shoe = dbConection_1.sequelize.define('Shoe', {
 }, {
 // Other model options go here
 });
-exports.Shoe.hasMany(BrandDBModel_1.Brand, {
-    foreignKey: 'shoeId',
+BrandDBModel_1.Brand.hasOne(exports.Shoe, {
+    foreignKey: 'brandId',
     sourceKey: 'id'
 });
-BrandDBModel_1.Brand.belongsTo(exports.Shoe, {
-    foreignKey: 'shoeId',
+exports.Shoe.belongsTo(BrandDBModel_1.Brand, {
+    foreignKey: 'brandId',
     targetKey: 'id'
 });
 // `sequelize.define` also returns the model

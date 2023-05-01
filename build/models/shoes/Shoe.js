@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Shoe {
-    constructor(name, description, price, brand, thumbnail) {
+    constructor(name, description, price, brandId, thumbnail) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.brand = brand;
+        this.brandId = brandId;
         this.thumbnail = thumbnail;
     }
 }

@@ -2,10 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const shoe_controllers_1 = require("../controllers/shoe.controllers");
+const validateTokenAdmin_1 = require("../middlewares/validateTokenAdmin");
 const router = (0, express_1.Router)();
 router.get('/', shoe_controllers_1.getShoes);
-router.get('/:id');
-router.post('/', shoe_controllers_1.addShoe);
-router.put('/:id');
-router.delete('/:id');
+router.get('/:id', shoe_controllers_1.getById);
+router.post('/', validateTokenAdmin_1.validateJWTAdmin, shoe_controllers_1.addShoe);
+router.put('/:id', validateTokenAdmin_1.validateJWTAdmin, shoe_controllers_1.updateById);
+router.delete('/:id', validateTokenAdmin_1.validateJWTAdmin, shoe_controllers_1.deleteById);
 exports.default = router;

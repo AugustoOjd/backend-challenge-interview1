@@ -1,13 +1,27 @@
+import { Admin } from "../../db/models/AuthDBMode";
 import { IAuthContext } from "../../interfaces/IAuth";
 
 
 export default class LoginStrategy implements IAuthContext{
 
-    login(userName: string, password: string): boolean {
-        console.log('login a db')
-// validar login en db y retornar false o true
-        if(userName === "admin" && password === "entrar") return true
+    async login(userName: string, password: string): Promise<boolean> {
+    // validar login en db y retornar false o true
+    try {
+        // if(userName === "storydots" && password === "507012") return true
+        const loginAdmin = await Admin.findOne({
+            where: {
+                userName: userName,
+                password: password
+            }
+        })
 
+        if(!loginAdmin) return false
+
+        return true
+
+    } catch (error) {
         return false
+    }
+
     }
 }

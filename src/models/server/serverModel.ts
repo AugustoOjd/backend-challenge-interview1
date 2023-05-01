@@ -7,8 +7,9 @@ import cors from 'cors'
 import { sequelize } from "../../db/dbConection";
 import { Brand } from "../../db/models/BrandDBModel";
 import { Shoe } from "../../db/models/ShoeDBModel";
-// import cookieParser from 'cookie-parser'
-// import bodyParser from "body-parser";
+import { Admin } from "../../db/models/AuthDBMode";
+import cookieParser from 'cookie-parser'
+
 
 export default class Server {
     
@@ -41,11 +42,12 @@ export default class Server {
 
     async dbConnection(){
         try {
-            // await sequelize.authenticate();
-            await sequelize.sync()
+            await sequelize.authenticate();
+            // await sequelize.sync()
             // await Brand.sync()
             // await Shoe.sync()
             
+            // await Admin.sync({force: true})
             // await Brand.sync({force: true})
             // await Shoe.sync({force: true})
             console.log('Connection has been established successfully.');
@@ -56,9 +58,8 @@ export default class Server {
 
     middlewares(){
         this.app.use( express.json() )
-        // this.app.use( cookieParser() )
+        this.app.use( cookieParser() )
         this.app.use( cors())
-        // this.app.use( bodyParser.json() );
         this.app.use( express.urlencoded({extended: true}) )
     }
 

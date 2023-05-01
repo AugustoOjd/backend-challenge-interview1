@@ -10,5 +10,8 @@ class AuthContext {
     login(userName, password) {
         return this.strategy.login(userName, password);
     }
+    registerSeed(userName, password) {
+        return this.strategy.registerSeed(userName, password);
+    }
 }
 exports.default = AuthContext;

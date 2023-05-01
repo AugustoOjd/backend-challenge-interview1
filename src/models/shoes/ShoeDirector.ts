@@ -17,7 +17,7 @@ export default class ShoeDirector {
         name: string,
         description: string,
         price: number,
-        brandId: string,
+        brandId: number,
         thumbnail: string,
     ){
         this.shoeBuilder.setName(name)

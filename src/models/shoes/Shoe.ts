@@ -5,14 +5,14 @@ export default class Shoe {
     private name: string
     private description: string
     private price: number
-    private brand: string
+    private brandId: number
     private thumbnail: string
 
-    constructor(name: string, description: string, price: number, brand: string, thumbnail: string){
+    constructor(name: string, description: string, price: number, brandId: number, thumbnail: string){
         this.name = name
         this.description = description
         this.price = price
-        this.brand = brand
+        this.brandId = brandId
         this.thumbnail = thumbnail
     }
 

@@ -1,15 +1,38 @@
 import {request, response} from 'express'
 import ShoeService from '../services/shoe.service'
+import { Shoe } from '../db/models/ShoeDBModel'
 
 
 const shoeservice = new ShoeService()
 
 export const getShoes = async (req = request, res= response)=>{
+    const { limit = 6 } = req.query
+
+    try {
+        const data = await shoeservice.getShoes(Number(limit))
+
+        return res.status(200).json({
+            status: 'getall_Success',
+            payload: data
+        })
+    } catch (error:any) {
+        return res.status(error.code).json({error})
+    }
+}
+
+export const getById = async (req = request, res= response)=>{
+    const {id} = req.params
+
     try {
         
-        return res.send('getShoes ok')
-    } catch (error) {
-        return res.status(404).json({error})
+        const data = await shoeservice.getShoeById(Number(id))
+
+        return res.status(200).json({
+            status: 'get_id_success',
+            payload: data
+        })
+    } catch (error: any) {
+        return res.status(error.code).json({error})
     }
 }
 
@@ -22,10 +45,42 @@ export const addShoe = async (req = request, res= response)=>{
         const data = await shoeservice.createShoe(name, description, price, thumbnail)
 
         return res.status(201).json({
-            status: 'Success',
+            status: 'add_success',
             payload: data
         })
-    } catch (error) {
-        return res.status(404).json({error})
+    } catch (error: any) {
+        return res.status(error.code).json({error})
+    }
+}
+
+export const updateById = async (req = request, res= response)=>{
+    const {id} = req.params
+    const newData = req.body
+    try {
+
+        const data = await shoeservice.updateById(Number(id), newData)
+        
+        return res.status(201).json({
+            status: 'update_success',
+            payload: data
+        })
+    } catch (error:any) {
+        return res.status(error.code).json({error})
+    }
+}
+
+export const deleteById = async (req = request, res= response)=>{
+    const {id} = req.params
+    
+    try {
+
+        const data = await shoeservice.deleteById(Number(id))
+        
+        return res.status(201).json({
+            status: 'delete_success',
+            payload: data
+        })
+    } catch (error: any) {
+        return res.status(error.code).json({error})
     }
 }

@@ -4,13 +4,13 @@ export interface IShoeBuilder{
     name: string
     description: string
     price: number
-    brand: string
+    brandId: number
     thumbnail: string
 
     setName(name:string): IShoeBuilder
     setDescripton(description: string): IShoeBuilder
     setPrice(price: number): IShoeBuilder
-    setBrand(brand: string): IShoeBuilder
+    setBrand(brandId: number): IShoeBuilder
     setImage(img: string): IShoeBuilder
 
     build(): Shoe

@@ -29,13 +29,13 @@ export const Shoe = sequelize.define('Shoe', {
   // Other model options go here
 });
 
-Shoe.hasMany(Brand, {
-    foreignKey: 'shoeId',
+Brand.hasOne(Shoe, {
+    foreignKey: 'brandId',
     sourceKey: 'id'
 })
 
-Brand.belongsTo(Shoe, {
-    foreignKey: 'shoeId',
+Shoe.belongsTo(Brand, {
+    foreignKey: 'brandId',
     targetKey: 'id'
 })
 

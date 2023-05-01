@@ -18,8 +18,7 @@ const brand_routes_1 = __importDefault(require("../../routes/brand.routes"));
 const auth_routes_1 = __importDefault(require("../../routes/auth.routes"));
 const cors_1 = __importDefault(require("cors"));
 const dbConection_1 = require("../../db/dbConection");
-// import cookieParser from 'cookie-parser'
-// import bodyParser from "body-parser";
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -38,10 +37,11 @@ class Server {
     dbConnection() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                // await sequelize.authenticate();
-                yield dbConection_1.sequelize.sync();
+                yield dbConection_1.sequelize.authenticate();
+                // await sequelize.sync()
                 // await Brand.sync()
                 // await Shoe.sync()
+                // await Admin.sync({force: true})
                 // await Brand.sync({force: true})
                 // await Shoe.sync({force: true})
                 console.log('Connection has been established successfully.');
@@ -53,9 +53,8 @@ class Server {
     }
     middlewares() {
         this.app.use(express_1.default.json());
-        // this.app.use( cookieParser() )
+        this.app.use((0, cookie_parser_1.default)());
         this.app.use((0, cors_1.default)());
-        // this.app.use( bodyParser.json() );
         this.app.use(express_1.default.urlencoded({ extended: true }));
     }
     routes() {

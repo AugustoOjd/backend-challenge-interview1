@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const ShoeDBModel_1 = require("../db/models/ShoeDBModel");
 const ShoeBuilder_1 = __importDefault(require("../models/shoes/ShoeBuilder"));
 const ShoeDirector_1 = __importDefault(require("../models/shoes/ShoeDirector"));
 class ShoeService {
@@ -26,18 +27,38 @@ class ShoeService {
         this.code = code;
     }
     getShoes(limit) {
-        return __awaiter(this, void 0, void 0, function* () { });
-    }
-    getShoeById(id) {
-        return __awaiter(this, void 0, void 0, function* () { });
-    }
-    createShoe(name, description, price, thumbnail) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!name || !description || !price || !thumbnail)
-                    throw this.errorController('All fields are require', 404);
-                this.shoeDirector.createShoe(name, description, price, 'brand id in tabla', 'link img');
-                const shoe = this.shoeBuilder.build();
+                if (!limit) {
+                    const shoes = yield ShoeDBModel_1.Shoe.findAll();
+                    if (!shoes)
+                        throw this.errorController('shoes not found', 500);
+                    return {
+                        data: shoes
+                    };
+                }
+                const shoes = yield ShoeDBModel_1.Shoe.findAll();
+                const limitedShoe = shoes.slice(0, limit);
+                return {
+                    data: limitedShoe
+                };
+            }
+            catch (error) {
+                throw {
+                    msg: this.error,
+                    code: this.code
+                };
+            }
+        });
+    }
+    getShoeById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!id)
+                    throw this.errorController('id is require', 404);
+                const shoe = yield ShoeDBModel_1.Shoe.findByPk(id);
+                if (!shoe)
+                    throw this.errorController('shoe not found', 404);
                 return {
                     data: shoe
                 };
@@ -50,13 +71,79 @@ class ShoeService {
             }
         });
     }
-    updateById(id) {
-        return __awaiter(this, void 0, void 0, function* () { });
+    createShoe(name, description, price, thumbnail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!name || !description || !price || !thumbnail)
+                    throw this.errorController('All fields are require', 404);
+                const randomBrand = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+                this.shoeDirector.createShoe(name, description, price, randomBrand, thumbnail);
+                const shoe = this.shoeBuilder.build();
+                const createInDB = yield ShoeDBModel_1.Shoe.create(Object.assign({}, shoe));
+                if (!createInDB)
+                    throw this.errorController('Error save in DB', 500);
+                return {
+                    data: shoe
+                };
+            }
+            catch (error) {
+                throw {
+                    msg: this.error,
+                    code: this.code
+                };
+            }
+        });
+    }
+    updateById(id, newAtributes) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!id)
+                    throw this.errorController('id is require', 404);
+                const shoe = yield ShoeDBModel_1.Shoe.findOne({
+                    where: {
+                        id: id
+                    }
+                });
+                if (!shoe)
+                    throw this.errorController('shoe not found', 404);
+                shoe.set(newAtributes);
+                shoe.save();
+                return {
+                    data: shoe
+                };
+            }
+            catch (error) {
+                throw {
+                    msg: this.error,
+                    code: this.code
+                };
+            }
+        });
     }
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             // delete puede cambiar el estado de un producto a false, sin eliminarlo
             // pero voy aplicar el delete literal como pide el challenge
+            try {
+                if (!id)
+                    throw this.errorController('id is require', 404);
+                const shoe = yield ShoeDBModel_1.Shoe.destroy({
+                    where: {
+                        id: id
+                    }
+                });
+                if (!shoe)
+                    throw this.errorController('shoe not found', 404);
+                return {
+                    data: shoe
+                };
+            }
+            catch (error) {
+                throw {
+                    msg: this.error,
+                    code: this.code
+                };
+            }
         });
     }
 }

@@ -9,14 +9,14 @@ class ShoeBuilder {
         this.name = '',
             this.description = '',
             this.price = 0;
-        this.brand = '';
+        this.brandId = 0;
         this.thumbnail = '';
     }
     reset() {
         this.name = '',
             this.description = '',
             this.price = 0;
-        this.brand = '';
+        this.brandId = 0;
         this.thumbnail = '';
     }
     setName(name) {
@@ -31,8 +31,8 @@ class ShoeBuilder {
         this.price = price;
         return this;
     }
-    setBrand(brand) {
-        this.brand = brand;
+    setBrand(brandId) {
+        this.brandId = brandId;
         return this;
     }
     setImage(img) {
@@ -40,7 +40,7 @@ class ShoeBuilder {
         return this;
     }
     build() {
-        const regularShoe = new Shoe_1.default(this.name, this.description, this.price, this.brand, this.thumbnail);
+        const regularShoe = new Shoe_1.default(this.name, this.description, this.price, this.brandId, this.thumbnail);
         this.reset();
         return regularShoe;
     }
