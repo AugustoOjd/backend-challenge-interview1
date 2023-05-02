@@ -7,7 +7,7 @@ export default class LoginStrategy implements IAuthContext{
     async login(userName: string, password: string): Promise<boolean> {
     // validar login en db y retornar false o true
     try {
-        // if(userName === "storydots" && password === "507012") return true
+        // if(userName !== "storydots" && password !== "507012") return false
         const loginAdmin = await Admin.findOne({
             where: {
                 userName: userName,

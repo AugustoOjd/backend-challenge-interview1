@@ -37,7 +37,9 @@ export default class AuthService {
 
             if(!userName || !password) throw this.errorController('fields are require', 404)
 
-            const authLogin = this.authAdmin.login(userName, password)
+            const authStrategy = this.authAdmin
+            
+            const authLogin = await authStrategy.login(userName, password)
 
             if(!authLogin) throw this.errorController('Invalid credentials', 404)
             // Se puede crear un value secreto para usarlo

@@ -15,7 +15,7 @@ class LoginStrategy {
         return __awaiter(this, void 0, void 0, function* () {
             // validar login en db y retornar false o true
             try {
-                // if(userName === "storydots" && password === "507012") return true
+                // if(userName !== "storydots" && password !== "507012") return false
                 const loginAdmin = yield AuthDBMode_1.Admin.findOne({
                     where: {
                         userName: userName,
