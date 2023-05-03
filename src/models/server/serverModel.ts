@@ -42,10 +42,11 @@ export default class Server {
 
     async dbConnection(){
         try {
-            await sequelize.authenticate();
-            // await sequelize.sync()
-            // await Brand.sync()
-            // await Shoe.sync()
+            // await sequelize.authenticate();
+            await sequelize.sync()
+            await Admin.sync()
+            await Brand.sync()
+            await Shoe.sync()
             
             // await Admin.sync({force: true})
             // await Brand.sync({force: true})
@@ -59,7 +60,12 @@ export default class Server {
     middlewares(){
         this.app.use( express.json() )
         this.app.use( cookieParser() )
-        this.app.use( cors())
+        this.app.use( cors({
+            origin: 'http://localhost:3000',
+            methods: 'GET, PUT, PATCH, POST, DELETE',
+            credentials: true
+        }))
+
         this.app.use( express.urlencoded({extended: true}) )
     }
 

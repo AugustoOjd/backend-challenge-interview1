@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteById = exports.updateById = exports.addShoe = exports.getById = exports.getShoes = void 0;
+exports.deleteById = exports.updateById = exports.addShoe = exports.getById = exports.getShoeBrand = exports.getShoes = void 0;
 const express_1 = require("express");
 const shoe_service_1 = __importDefault(require("../services/shoe.service"));
 const shoeservice = new shoe_service_1.default();
@@ -30,6 +30,20 @@ const getShoes = (req = express_1.request, res = express_1.response) => __awaite
     }
 });
 exports.getShoes = getShoes;
+const getShoeBrand = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, brandId } = req.params;
+    try {
+        const data = yield shoeservice.getBrandShoeById(Number(id), Number(brandId));
+        return res.status(200).json({
+            status: 'ShoeBrand_Success',
+            payload: data
+        });
+    }
+    catch (error) {
+        return res.status(error.code).json({ error });
+    }
+});
+exports.getShoeBrand = getShoeBrand;
 const getById = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {

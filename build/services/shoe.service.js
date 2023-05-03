@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const BrandDBModel_1 = require("../db/models/BrandDBModel");
 const ShoeDBModel_1 = require("../db/models/ShoeDBModel");
 const ShoeBuilder_1 = __importDefault(require("../models/shoes/ShoeBuilder"));
 const ShoeDirector_1 = __importDefault(require("../models/shoes/ShoeDirector"));
@@ -61,6 +62,30 @@ class ShoeService {
                     throw this.errorController('shoe not found', 404);
                 return {
                     data: shoe
+                };
+            }
+            catch (error) {
+                throw {
+                    msg: this.error,
+                    code: this.code
+                };
+            }
+        });
+    }
+    getBrandShoeById(id, brandId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!id || !brandId)
+                    throw this.errorController('ids are require', 404);
+                const brandShoe = yield BrandDBModel_1.Brand.findOne({
+                    where: {
+                        id: brandId
+                    }
+                });
+                if (!brandShoe)
+                    throw this.errorController('brand not found', 404);
+                return {
+                    data: brandShoe
                 };
             }
             catch (error) {

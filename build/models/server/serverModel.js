@@ -18,6 +18,9 @@ const brand_routes_1 = __importDefault(require("../../routes/brand.routes"));
 const auth_routes_1 = __importDefault(require("../../routes/auth.routes"));
 const cors_1 = __importDefault(require("cors"));
 const dbConection_1 = require("../../db/dbConection");
+const BrandDBModel_1 = require("../../db/models/BrandDBModel");
+const ShoeDBModel_1 = require("../../db/models/ShoeDBModel");
+const AuthDBMode_1 = require("../../db/models/AuthDBMode");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 class Server {
     constructor() {
@@ -37,10 +40,11 @@ class Server {
     dbConnection() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield dbConection_1.sequelize.authenticate();
-                // await sequelize.sync()
-                // await Brand.sync()
-                // await Shoe.sync()
+                // await sequelize.authenticate();
+                yield dbConection_1.sequelize.sync();
+                yield AuthDBMode_1.Admin.sync();
+                yield BrandDBModel_1.Brand.sync();
+                yield ShoeDBModel_1.Shoe.sync();
                 // await Admin.sync({force: true})
                 // await Brand.sync({force: true})
                 // await Shoe.sync({force: true})
@@ -54,7 +58,11 @@ class Server {
     middlewares() {
         this.app.use(express_1.default.json());
         this.app.use((0, cookie_parser_1.default)());
-        this.app.use((0, cors_1.default)());
+        this.app.use((0, cors_1.default)({
+            origin: 'http://localhost:3000',
+            methods: 'GET, PUT, PATCH, POST, DELETE',
+            credentials: true
+        }));
         this.app.use(express_1.default.urlencoded({ extended: true }));
     }
     routes() {

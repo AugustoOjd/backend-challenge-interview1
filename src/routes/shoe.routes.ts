@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { getShoes, addShoe, deleteById, updateById, getById } from '../controllers/shoe.controllers'
+import { getShoes, addShoe, deleteById, updateById, getById, getShoeBrand } from '../controllers/shoe.controllers'
 import { validateJWTAdmin } from '../middlewares/validateTokenAdmin'
 
 const router = Router()
@@ -7,6 +7,8 @@ const router = Router()
 router.get('/', getShoes)
 
 router.get('/:id', getById)
+
+router.get('/:id/brand/:brandId', getShoeBrand)
 
 router.post('/',validateJWTAdmin, addShoe)
 

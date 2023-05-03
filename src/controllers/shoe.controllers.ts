@@ -20,6 +20,20 @@ export const getShoes = async (req = request, res= response)=>{
     }
 }
 
+export const getShoeBrand = async (req = request, res= response)=>{
+    const {id, brandId} = req.params
+    try {
+        const data = await shoeservice.getBrandShoeById(Number(id), Number(brandId))
+
+        return res.status(200).json({
+            status: 'ShoeBrand_Success',
+            payload: data
+        })
+    } catch (error:any ) {
+        return res.status(error.code).json({error})
+    }
+}
+
 export const getById = async (req = request, res= response)=>{
     const {id} = req.params
 

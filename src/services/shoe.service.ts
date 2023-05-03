@@ -69,6 +69,29 @@ export default class ShoeService {
         }
     }
 
+    async getBrandShoeById(id: number, brandId: number){
+        try {
+            if(!id || !brandId) throw this.errorController('ids are require', 404)
+
+            const brandShoe = await Brand.findOne({
+                where: {
+                    id: brandId
+                }
+            })
+            if(!brandShoe) throw this.errorController('brand not found', 404)
+
+            return {
+                data: brandShoe
+            }
+
+        } catch (error) {
+            throw {
+                msg: this.error,
+                code: this.code
+            }
+        }
+    }
+
     async createShoe(name: string,description: string,price: number, thumbnail: string,){
         try {
             if(!name || !description || !price || !thumbnail) throw this.errorController('All fields are require', 404)
