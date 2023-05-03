@@ -17,11 +17,10 @@ const shoe_routes_1 = __importDefault(require("../../routes/shoe.routes"));
 const brand_routes_1 = __importDefault(require("../../routes/brand.routes"));
 const auth_routes_1 = __importDefault(require("../../routes/auth.routes"));
 const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const dbConection_1 = require("../../db/dbConection");
-const BrandDBModel_1 = require("../../db/models/BrandDBModel");
-const ShoeDBModel_1 = require("../../db/models/ShoeDBModel");
-const AuthDBMode_1 = require("../../db/models/AuthDBMode");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const helmet_1 = __importDefault(require("helmet"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -42,28 +41,34 @@ class Server {
             try {
                 // await sequelize.authenticate();
                 yield dbConection_1.sequelize.sync();
-                yield AuthDBMode_1.Admin.sync();
-                yield BrandDBModel_1.Brand.sync();
-                yield ShoeDBModel_1.Shoe.sync();
+                // await Admin.sync()
+                // await Brand.sync()
+                // await Shoe.sync()
                 // await Admin.sync({force: true})
                 // await Brand.sync({force: true})
                 // await Shoe.sync({force: true})
-                console.log('Connection has been established successfully.');
+                // console.log('Connection has been established successfully.');
             }
             catch (error) {
-                console.error('Unable to connect to the database:', error);
+                // console.error('Unable to connect to the database:', error);
             }
         });
     }
     middlewares() {
+        this.app.use((0, helmet_1.default)());
         this.app.use(express_1.default.json());
         this.app.use((0, cookie_parser_1.default)());
+        this.app.use(express_1.default.urlencoded({ extended: true }));
+        this.app.use(body_parser_1.default.json());
+        this.app.use(body_parser_1.default.urlencoded({ extended: true }));
         this.app.use((0, cors_1.default)({
-            origin: 'http://localhost:3000',
+            origin: [
+                'https://frontend-storydots.vercel.app',
+                'http://localhost:3000',
+            ],
             methods: 'GET, PUT, PATCH, POST, DELETE',
             credentials: true
         }));
-        this.app.use(express_1.default.urlencoded({ extended: true }));
     }
     routes() {
         this.app.use(this.paths.shoe, shoe_routes_1.default);

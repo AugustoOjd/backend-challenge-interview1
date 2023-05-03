@@ -9,7 +9,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const dbConfig_1 = require("./dbConfig");
 const { development: { username, password, database, host, dialect } } = dbConfig_1.dbConfig;
-exports.sequelize = new sequelize_1.Sequelize(database, username, password, {
-    host: host,
-    dialect: 'postgres'
-});
+// export const sequelize = new Sequelize(database!, username!, password, {
+//     host: host,
+//     dialect: 'postgres'
+//   });
+exports.sequelize = new sequelize_1.Sequelize(`${dialect}://${username}:${password}@${host}/${database}?ssl=true`);

@@ -11,18 +11,14 @@ const { development: {jwt_key}} = dbConfig
 
 export const validateJWTAdmin = async (req: Request, res: Response, next: NextFunction) =>{
 
-    const { xtoken = '' } = req.cookies
-
-
-    if(!xtoken){
-        return res.status(401).json({msg: 'not exists token'})
-    }
-
+    const {xtoken} = req.cookies
     try {
 
+        if(!xtoken) return res.status(401).json({msg: 'not exists token'})
+    
         // Aca valido con nombre porque el id de pg es autoincremental entonces preferi tomar el nombre
         // pero se puede usar otro parametro para validar
-        const decoded = jwt.verify( xtoken, jwt_key!) as JwtPayload
+        const decoded = jwt.verify( xtoken as string, jwt_key!) as JwtPayload
         
         const user: any = await Admin.findOne({
             where: {

@@ -20,11 +20,10 @@ dotenv_1.default.config();
 const dbConfig_1 = require("../db/dbConfig");
 const { development: { jwt_key } } = dbConfig_1.dbConfig;
 const validateJWTAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { xtoken = '' } = req.cookies;
-    if (!xtoken) {
-        return res.status(401).json({ msg: 'not exists token' });
-    }
+    const { xtoken } = req.cookies;
     try {
+        if (!xtoken)
+            return res.status(401).json({ msg: 'not exists token' });
         // Aca valido con nombre porque el id de pg es autoincremental entonces preferi tomar el nombre
         // pero se puede usar otro parametro para validar
         const decoded = jsonwebtoken_1.default.verify(xtoken, jwt_key);
