@@ -6,10 +6,9 @@ import { Shoe } from '../db/models/ShoeDBModel'
 const shoeservice = new ShoeService()
 
 export const getShoes = async (req = request, res= response)=>{
-    const { limit = 6 } = req.query
 
     try {
-        const data = await shoeservice.getShoes(Number(limit))
+        const data = await shoeservice.getShoes()
 
         return res.status(200).json({
             status: 'getall_Success',

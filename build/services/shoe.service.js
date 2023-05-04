@@ -27,21 +27,14 @@ class ShoeService {
         this.error = message;
         this.code = code;
     }
-    getShoes(limit) {
+    getShoes() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!limit) {
-                    const shoes = yield ShoeDBModel_1.Shoe.findAll();
-                    if (!shoes)
-                        throw this.errorController('shoes not found', 500);
-                    return {
-                        data: shoes
-                    };
-                }
                 const shoes = yield ShoeDBModel_1.Shoe.findAll();
-                const limitedShoe = shoes.slice(0, limit);
+                if (!shoes)
+                    throw this.errorController('shoes not found', 500);
                 return {
-                    data: limitedShoe
+                    data: shoes
                 };
             }
             catch (error) {

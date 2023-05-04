@@ -17,9 +17,8 @@ const express_1 = require("express");
 const shoe_service_1 = __importDefault(require("../services/shoe.service"));
 const shoeservice = new shoe_service_1.default();
 const getShoes = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
-    const { limit = 6 } = req.query;
     try {
-        const data = yield shoeservice.getShoes(Number(limit));
+        const data = yield shoeservice.getShoes();
         return res.status(200).json({
             status: 'getall_Success',
             payload: data

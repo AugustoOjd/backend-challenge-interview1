@@ -25,22 +25,13 @@ export default class ShoeService {
     }
 
 
-    async getShoes(limit?: number){
+    async getShoes(){
         try {
-            
-            if(!limit){
-                const shoes = await Shoe.findAll()
-                if(!shoes) throw this.errorController('shoes not found', 500)
-                return {
-                    data: shoes
-                }
-            }
-
             const shoes = await Shoe.findAll()
-            const limitedShoe = shoes.slice(0, limit)
+            if(!shoes) throw this.errorController('shoes not found', 500)
 
             return {
-                data: limitedShoe
+                data: shoes
             }
 
         } catch (error) {
