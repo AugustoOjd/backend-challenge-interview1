@@ -10,11 +10,13 @@ router.get('/:id', getById)
 
 router.get('/:id/brand/:brandId', getShoeBrand)
 
-router.post('/',validateJWTAdmin, addShoe)
+// validateJWTAdmin, este middlware iria en las peticiones put, creat y delete pero tuve algunos incovenientes con el jwt !!!!
 
-router.put('/:id', validateJWTAdmin, updateById)
+router.post('/', addShoe)
 
-router.delete('/:id', validateJWTAdmin, deleteById )
+router.put('/:id', updateById)
+
+router.delete('/:id', deleteById )
 
 
 
