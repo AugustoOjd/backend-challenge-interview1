@@ -1,4 +1,4 @@
-# Backend challenge storydots
+# Backend challenge interview
 
 Este challenge es un backend de ecommerce de zapatillas, con 3 marcas, se puede ingresar como "admin" y mirar la lista de productos, solo el admin puede crear, modificar o eliminar.
 
